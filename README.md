@@ -15,12 +15,19 @@ A simple Flask-based REST API for managing a ToDo list.
    pip install -r requirements.txt
    ```
 
-3. Run the application:
-   ```bash
-   python app.py
-   ```
+## Run Application
 
-4. Access the **Swagger UI** at [`/`](http://127.0.0.1:5000/) for interactive API documentation and testing.
+### For Testing
+```bash
+flask --app main run
+```
+
+### For Production
+```bash
+gunicorn main:app
+```
+
+5. Access the **Swagger UI** at [`/`](http://127.0.0.1:5000/) for interactive API documentation and testing.
 
 ## Endpoints
 
