@@ -1,10 +1,18 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, redirect
 from flask_sqlalchemy import SQLAlchemy
+from flask_swagger_ui import get_swaggerui_blueprint
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///todo.db"
 
 db = SQLAlchemy(app)
+
+
+SWAGGER_URL = "/swagger"
+API_URL = "/static/swagger.json"
+
+swagger_ui_blueprint = get_swaggerui_blueprint(SWAGGER_URL, API_URL)
+app.register_blueprint(swagger_ui_blueprint, url_prefix=SWAGGER_URL)
 
 class ToDo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -12,6 +20,10 @@ class ToDo(db.Model):
 
 with app.app_context():
     db.create_all()
+
+@app.route("/", strict_slashes=False, methods=["GET"])
+def redirect_swagger():
+    return redirect("/swagger")
 
 @app.route('/create', methods=['POST'], strict_slashes=False)
 def create_todo():

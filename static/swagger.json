@@ -1,0 +1,116 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "ToDo API",
+    "description": "A simple Todo API using Flask and SQLAlchemy",
+    "version": "1.0.0"
+  },
+  "host": "127.0.0.1:5000",
+  "schemes": ["http"],
+  "paths": {
+    "/create": {
+      "post": {
+        "summary": "Create new Todo",
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "todo",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "todo": {
+                  "type": "string",
+                  "example": "Buy groceries"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "ToDo created",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": { "type": "integer" },
+                "todo": { "type": "string" }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          }
+        }
+      }
+    },
+    "/delete/{num}": {
+      "delete": {
+        "summary": "Delete a Todo",
+        "parameters": [
+          {
+            "name": "num",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": { "description": "ToDo deleted" },
+          "404": { "description": "ToDo not found" }
+        }
+      }
+    },
+    "/update/{num}": {
+      "put": {
+        "summary": "Update a Todo",
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "name": "num",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name": "todo",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "todo": { "type": "string", "example": "Read a book" }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": { "description": "ToDo updated" },
+          "400": { "description": "Invalid request" },
+          "404": { "description": "ToDo not found" }
+        }
+      }
+    },
+    "/list/{num}": {
+      "get": {
+        "summary": "Get a Todo or list all",
+        "parameters": [
+          {
+            "name": "num",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "example": "all"
+          }
+        ],
+        "responses": {
+          "200": { "description": "ToDo list returned" },
+          "400": { "description": "Invalid ID format" },
+          "404": { "description": "ToDo not found" }
+        }
+      }
+    }
+  }
+}
+
